@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pojok Gosip - Portal Berita Selebriti</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-flex">
+            <div>
+                <h1>Pojok Gosip ID</h1>
+                <nav class="nav">
+                    <a href="#" onclick="filterKategori('semua')">Home</a>
+                    <a href="#" onclick="filterKategori('selebriti')">Selebriti</a>
+                    <a href="#" onclick="filterKategori('viral')">Viral</a>
+                </nav>
+            </div>
+            <!-- Tombol Login / Register di Header -->
+            <div class="auth-header">
+                <span id="userGreeting" class="user-greeting hidden"></span>
+                <button id="btnOpenAuth" class="btn btn-light" onclick="bukaModal()">Login / Register</button>
+                <button id="btnLogout" class="btn btn-danger hidden" onclick="logoutUser()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container main-layout">
+        
+        <!-- Sidebar Kiri (Sesuai Gambar: 3 Menu Item) -->
+        <aside class="sidebar">
+            <div class="sidebar-card" onclick="gantiEdisi(0)">
+                <h3>🔥 Gosip Terpanas</h3>
+                <p>Kabar artis paling ramai hari ini</p>
+            </div>
+            <div class="sidebar-card" onclick="gantiEdisi(1)">
+                <h3>💔 Cinlok & Drama</h3>
+                <p>Update hubungan pasangan selebriti</p>
+            </div>
+            <div class="sidebar-card" onclick="gantiEdisi(2)">
+                <h3>🍵 Spill Akun Anonim</h3>
+                <p>Rumor panas yang beredar di sosmed</p>
+            </div>
+        </aside>
+
+        <!-- Area Konten Kanan (Persis Struktur Gambar: 2 Feature + 1 Main Article) -->
+        <section class="content">
+            <h2>Konten</h2>
+
+            <!-- Baris Atas: 2 Kartu Feature Berita Gosip -->
+            <div class="feature-grid">
+                
+                <!-- Feature 1 -->
+                <article class="dark-card feature-card">
+                    <div>
+                        <h3 id="feat1Title">Aktor Inisial R Terciduk di Kafe Senopati</h3>
+                        <p id="feat1Desc">
+                            Foto buram aktor muda R tengah makan malam berdua dengan selebgram pendatang baru mendadak viral dan memicu spekulasi putus dengan pacar resminya.
+                        </p>
+                    </div>
+                    <button class="btn btn-primary" onclick="bacaDetail(1)">Learn More</button>
+                </article>
+
+                <!-- Feature 2 -->
+                <article class="dark-card feature-card">
+                    <div>
+                        <h3 id="feat2Title">Penyanyi Pop Hapus Semua Foto Pacar</h3>
+                        <p id="feat2Desc">
+                            Penggemar dibuat panik setelah seluruh foto kebersamaan pasangan musisi muda ini lenyap dari feed Instagram sejak dini hari tadi.
+                        </p>
+                    </div>
+                    <button class="btn btn-success" onclick="bacaDetail(2)">Get Started</button>
+                </article>
+
+            </div>
+
+            <!-- Baris Bawah: Main Article -->
+            <article class="dark-card article-card">
+                <h3 id="mainTitle">Main Article: Mantan Asisten Bongkar Sikap Asli Artis Terkenal</h3>
+                <p id="mainBody">
+                    Sebuah utas anonim mendadak menjadi perbincangan hangat warganet setelah menceritakan pengalaman bekerja di balik layar bersama seorang figur publik ternama. Meski dikenal sangat ramah di depan kamera televisi, sang artis disebut kerap membatalkan jadwal syuting secara sepihak dan membuat tim produksi kewalahan. Klik tombol <strong>Learn More</strong> atau <strong>Get Started</strong> di atas untuk membaca kronologi lengkap tiap berita.
+                </p>
+            </article>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <h4>Footer</h4>
+                <p>&copy; 2026 Pojok Gosip ID. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Popup Login & Register -->
+    <div id="authModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalTitle">Login Akun Netizen</h3>
+                <button class="close-btn" onclick="tutupModal()">&times;</button>
+            </div>
+
+            <div id="modalAlert" class="modal-alert hidden"></div>
+
+            <!-- Tab Switcher -->
+            <div class="tab-buttons">
+                <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button id="tabRegister" class="tab-btn" onclick="switchTab('register')">Register</button>
+            </div>
+
+            <!-- Form Login -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="nama@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login Sekarang</button>
+            </form>
+
+            <!-- Form Register -->
+            <form id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label for="regName">Username</label>
+                    <input type="text" id="regName" placeholder="Contoh: NetizenJulid" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="nama@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Minimal 6 karakter" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Daftar Akun</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
