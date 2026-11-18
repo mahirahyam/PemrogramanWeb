@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIAKAD & Layanan Mahasiswa — Portal Akademik</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">SI</div>
+      <div class="brand-text">
+        <h1>Portal Akademik</h1>
+        <span>Sistem Informasi Terpadu</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-label">Menu Modul</div>
+      <button class="nav-item active" data-target="modul-registrasi" data-title="Registrasi Mata Kuliah">
+        <span>01.</span> Registrasi KRS
+      </button>
+      <button class="nav-item" data-target="modul-kodepos" data-title="Direktori Kode Pos">
+        <span>02.</span> Pencarian Kode Pos
+      </button>
+      <button class="nav-item" data-target="modul-validasi" data-title="Aktivasi Akun Mahasiswa">
+        <span>03.</span> Aktivasi & Validasi
+      </button>
+      <button class="nav-item" data-target="modul-katalog" data-title="Inventaris Lab & Perangkat">
+        <span>04.</span> Katalog Perangkat
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      Semester Gasal 2026/2027<br>
+      Departemen Teknik Informatika
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="breadcrumb">Beranda / <strong id="topbarTitle">Registrasi Mata Kuliah</strong></div>
+      <div class="user-pill">
+        <span class="status-dot"></span>
+        <span>Sesi Aktif</span>
+      </div>
+    </header>
+
+    <main class="content-area">
+
+      <!-- ================= MODUL 1: FORM REGISTRASI + AUTOCOMPLETE ================= -->
+      <section id="modul-registrasi" class="page-section active">
+        <div class="section-header">
+          <h2>Registrasi Mata Kuliah</h2>
+          <p>Ketikkan nama mahasiswa untuk menampilkan rekomendasi otomatis dari basis data akademik.</p>
+        </div>
+
+        <div class="card">
+          <form id="formRegistrasi" autocomplete="off">
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="regNama">Nama Mahasiswa</label>
+                <input type="text" id="regNama" placeholder="Ketik huruf nama (mis. Mahirah, Ahmad, Rizky)..." required>
+                <div id="dropdownNama" class="autocomplete-dropdown"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="regNim">Nomor Induk Mahasiswa (NIM)</label>
+                <input type="text" id="regNim" placeholder="Terisi otomatis atau ketik manual" required>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="regMatkul">Mata Kuliah</label>
+                <input type="text" id="regMatkul" placeholder="Contoh: Pemrograman Web" required>
+              </div>
+
+              <div class="form-group">
+                <label for="regDosen">Dosen Pengampu</label>
+                <input type="text" id="regDosen" placeholder="Contoh: Fajar Baskoro, S.Kom., M.T." required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Daftarkan Mata Kuliah</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 class="card-subtitle">Daftar Pengambilan Mata Kuliah (Sesi Ini)</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>NIM</th>
+                <th>Nama Mahasiswa</th>
+                <th>Mata Kuliah</th>
+                <th>Dosen Pengampu</th>
+              </tr>
+            </thead>
+            <tbody id="tabelRegistrasi">
+              <tr>
+                <td colspan="4" class="empty-row">Belum ada data registrasi yang ditambahkan.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= MODUL 2: PENCARIAN KODE POS INDONESIA ================= -->
+      <section id="modul-kodepos" class="page-section">
+        <div class="section-header">
+          <h2>Pencarian Kode Pos Wilayah Indonesia</h2>
+          <p>Pilih Provinsi, Kabupaten/Kota, dan Kecamatan secara berurutan untuk melihat kode pos dan rincian wilayah.</p>
+        </div>
+
+        <div class="card">
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="selProvinsi">Provinsi</label>
+              <select id="selProvinsi">
+                <option value="">Pilih Provinsi</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="selKota">Kabupaten / Kota</label>
+              <select id="selKota" disabled>
+                <option value="">Pilih Kabupaten/Kota</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="selKecamatan">Kecamatan</label>
+            <select id="selKecamatan" disabled>
+              <option value="">Pilih Kecamatan</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button id="btnCariKodePos" class="btn btn-primary" disabled>Cari Kode Pos</button>
+            <button id="btnResetWilayah" class="btn btn-outline" type="button">Reset</button>
+          </div>
+
+          <div id="hasilKodePos" class="postal-card">
+            <div class="postal-label">Kode Pos Wilayah</div>
+            <div id="kpNomor" class="postal-code-big">60111</div>
+            <div id="kpKelurahan" class="postal-kelurahan"></div>
+            <div class="postal-meta">
+              <div><span>Kecamatan</span><strong id="kpKec">-</strong></div>
+              <div><span>Kabupaten/Kota</span><strong id="kpKota">-</strong></div>
+              <div><span>Provinsi</span><strong id="kpProv">-</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= MODUL 3: VALIDASI JAVASCRIPT ================= -->
+      <section id="modul-validasi" class="page-section">
+        <div class="section-header">
+          <h2>Aktivasi Akun Mahasiswa</h2>
+          <p>Validasi format input nama, alamat email institusi/pribadi, serta kekuatan kata sandi secara langsung.</p>
+        </div>
+
+        <div class="card card-narrow">
+          <form id="formValidasi" novalidate>
+            <div class="form-group">
+              <label for="valNama">Nama Lengkap</label>
+              <input type="text" id="valNama" placeholder="Masukkan nama lengkap (huruf saja)">
+              <div id="errNama" class="error-text">Nama wajib diisi dan tidak boleh mengandung angka atau simbol.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="valEmail">Alamat Email</label>
+              <input type="email" id="valEmail" placeholder="contoh@student.its.ac.id">
+              <div id="errEmail" class="error-text">Masukkan format alamat email yang valid.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="valPassword">Kata Sandi Baru</label>
+              <input type="password" id="valPassword" placeholder="Minimal 8 karakter, kombinasi huruf & angka">
+              <div id="errPassword" class="error-text">Kata sandi minimal 8 karakter dan wajib mengandung huruf serta angka.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="valConfirm">Konfirmasi Kata Sandi</label>
+              <input type="password" id="valConfirm" placeholder="Ulangi kata sandi">
+              <div id="errConfirm" class="error-text">Konfirmasi kata sandi tidak cocok.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Verifikasi & Aktivasi</button>
+          </form>
+
+          <div id="alertValidasi" class="alert alert-success"></div>
+        </div>
+      </section>
+
+      <!-- ================= MODUL 4: LIST DROPDOWN DINAMIS ================= -->
+      <section id="modul-katalog" class="page-section">
+        <div class="section-header">
+          <h2>Katalog Inventaris & Peminjaman Alat Lab</h2>
+          <p>Pilihan unit perangkat menyesuaikan kategori yang dipilih, serta mendukung penambahan item baru ke dalam daftar.</p>
+        </div>
+
+        <div class="card card-medium">
+          <div class="form-group">
+            <label for="dropKategori">Kategori Perangkat</label>
+            <select id="dropKategori">
+              <option value="">-- Pilih Kategori --</option>
+              <option value="komputasi">Workstation & Laptop</option>
+              <option value="jaringan">Perangkat Jaringan</option>
+              <option value="iot">Mikrokontroler & IoT</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dropUnit">Unit Tersedia</label>
+            <select id="dropUnit" disabled>
+              <option value="">-- Pilih Kategori Terlebih Dahulu --</option>
+            </select>
+          </div>
+
+          <div id="infoUnit" class="unit-status"></div>
+
+          <hr class="divider">
+
+          <div class="form-group no-margin">
+            <label for="inputUnitBaru">Tambah Unit Baru ke Kategori Aktif</label>
+            <div class="inline-add">
+              <input type="text" id="inputUnitBaru" placeholder="Nama perangkat baru (mis. Raspberry Pi 5)...">
+              <button type="button" id="btnTambahUnit" class="btn btn-outline">Tambahkan</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
